@@ -8,6 +8,7 @@ import { onInitialize } from "./onInitialize";
 
 import quote from './namespaces/quote';
 import timer from './namespaces/timer';
+import layout from './namespaces/layout';
 
 // import warning from '../utils/warning
 
@@ -20,7 +21,8 @@ const config = merge(
   },
   namespaced({
     quote,
-    timer
+    timer,
+    layout
   })
 );
 
