@@ -1,0 +1,300 @@
+@import '~antd/lib/style/themes/default.less';
+
+@red: #ef5350;
+@green: #26a69a;
+
+:global {
+  .flex-pad {
+    flex-grow: 1;
+  }
+}
+
+.topBar {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  line-height: 39px;
+  padding: 0 5px;
+
+  :global {
+    .anticon-question-circle {
+      padding: 10px;
+    }
+
+    .ant-calendar-picker-input.ant-input.ant-input-disabled {
+      background-color: #fff;
+    }
+  }
+}
+
+.topBar,
+.bottom {
+  background-color: #ffffff;
+}
+
+.bottom {
+  padding: 5px 7px;
+  font-size: 12px;
+  color: @red;
+  box-shadow: 1px -1px 1px 1px #ddd;
+}
+
+.dateDropdown {
+  :global {
+    .ant-calendar-input-wrap {
+      display: none;
+    }
+  }
+}
+
+.tabStyle {
+  :global {
+    .ant-tabs-bar {
+      margin: 0 0 0 0 ;
+    }
+  }
+}
+
+.open {
+  :global {
+    .ant-form-item-label{
+      line-height: 3;
+    }
+    .ant-form-item {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.modalInfo {
+  text-align: left;
+
+  :global {
+    .ant-modal-body {
+      padding: 15px;
+
+      .ant-modal-confirm-title {
+        margin-right: 0;
+      }
+
+      .ant-modal-confirm-body > .ant-modal-confirm-content {
+        margin: 0;
+        padding: 15px 10px;
+      }
+
+      .ant-modal-confirm-btns {
+        margin: auto;
+        float: unset;
+        text-align: center;
+      }
+    }
+  }
+}
+
+.table {
+  height: calc(100% - 86px);
+
+  * {
+    height: 100%;
+  }
+
+  :global {
+    .ant-table-thead {
+      box-shadow: 1px 1px 1px #bbb;
+    }
+
+    .ant-table-thead > tr > th {
+      background: transparent;
+      color: #515a6e;
+      font-weight: bold;
+    }
+    .ant-table-thead > tr > th,
+    .ant-table-tbody > tr > td {
+      //padding: 8px 1px;
+    }
+    .ant-table table {
+      text-align: center;
+      .ant-table-row-indent {
+        height: 0;
+      }
+    }
+    .ant-table-thead > tr > th {
+      text-align: center;
+    }
+
+    table .ant-table-tbody {
+      height: calc(100% - 39px);
+      scroll-behavior: smooth;
+    }
+
+    tr:first-child > th:first-child,
+    tr:first-child > th:last-child {
+      border-radius: 0;
+    }
+  }
+}
+
+.offerList {
+  width: 100vw;
+  height: 100vh;
+
+  table {
+    display: block;
+
+    thead,
+    tr,
+    tbody {
+      display: block;
+      width: 100%;
+    }
+
+    thead {
+      height: auto;
+      // background-color: azure;
+    }
+
+    tbody {
+      overflow-y: auto;
+    }
+
+    td > a {
+      font-family: Trebuchet MS,roboto,ubuntu,sans-serif;
+      font-weight: 400;
+      color: #2196f3;
+    }
+
+    tr, td, th  {
+      height: 38px;
+      line-height: 38px;
+      padding: 0;
+      border-radius: 0;
+      //box-sizing: border-box;
+    }
+
+    thead > tr > th ,
+    tbody > tr > td {
+      display: inline-block;
+      width: 20%;
+      border-radius: 0;
+      text-align: center;
+    }
+  }
+}
+
+.transModal {
+  :global {
+    .ant-modal-body {
+      padding-top: 5px;
+    }
+
+    .ant-form-item {
+      display: flex;
+      align-items: center;
+      margin: 0;
+
+      .ant-form-item-label {
+        padding: 0;
+      }
+    }
+
+    .ant-divider-horizontal {
+      margin: 10px 0;
+    }
+  }
+}
+
+.transData {
+  color: #fff;
+  text-align: center;
+  border-radius: 0;
+  margin-bottom: 5px;
+  padding: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  > * {
+    margin: 0;
+    line-height: 1.6;
+  }
+}
+
+.transInfo {
+  display: flex;
+  justify-content: center;
+  border-radius: 4px;
+  border: 1px solid #abdcff;
+  background-color: #f0faff;
+  padding: 10px 4px;
+  text-align: center;
+  line-height: 20px;
+}
+
+.tPrice {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+
+  :global {
+    .title {
+      width: 100%;
+      line-height: 40px;
+      text-align: center;
+
+      > * {
+        display: inline-block;
+        text-align: center;
+        color: #ffffff;
+      }
+
+      > span:first-child {
+        background: @red;
+      }
+
+      > span:last-child {
+        background-color: @green;
+      }
+    }
+
+    table > tbody {
+      height: calc(100vh - 170px);
+    }
+
+    table > thead {
+      background: #f5f5f5;
+
+      > tr > th {
+        color: #515a6e;
+        font-weight: bold;
+      }
+    }
+
+    .t-row {
+      td:first-child, td:nth-child(4) {
+        color: @green;
+      }
+
+      td:nth-child(2), td:last-child {
+        color: @red;
+      }
+
+      td:nth-child(3) {
+        background: #f5f5f5;
+      }
+    }
+  }
+
+  form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px;
+    height: 40px;
+    min-height: 40px;
+    font-size: 10px;
+
+    > * {
+      width: calc(33.33% - 4px);
+      margin: 0;
+      font-size: inherit;
+    }
+  }
+}
