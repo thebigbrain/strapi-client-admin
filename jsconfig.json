@@ -3,11 +3,14 @@
     "baseUrl": "./src",
     "jsx": "react",
     "target": "es6",
-    "module": "esnext"
+    "module": "esnext",
+    "checkJs": true
   },
   "exclude": [
     "dist",
     "public",
-    ".cache"
+    ".cache",
+    "node_modules",
+    "**/node_modules/*"
   ]
 }

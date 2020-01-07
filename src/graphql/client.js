@@ -2,9 +2,11 @@ import React from "react";
 import ApolloClient, {InMemoryCache} from 'apollo-boost';
 import { ApolloProvider as Provider } from '@apollo/react-hooks';
 
+const location = window.location;
+
 export const client = new ApolloClient({
   // uri: 'https://48p1r2roz4.sse.codesandbox.io',
-  uri: 'http://localhost:1337/graphql',
+  uri: `${location.protocol}//${location.hostname}:1337/graphql`,
   cache: new InMemoryCache()
 });
 

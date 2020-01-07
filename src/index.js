@@ -6,6 +6,7 @@ import * as serviceWorker from "./serviceWorker";
 import overmind from "./overmind";
 import { createGlobalStyle } from "styled-components";
 import 'antd/dist/antd.css';
+import {BrowserRouter as Router} from 'react-router-dom';
 import {ApolloProvider} from "./graphql/client";
 
 const GlobalStyle = createGlobalStyle`
@@ -28,7 +29,9 @@ ReactDOM.render(
   <OvermindProvider value={overmind}>
     <ApolloProvider>
       <GlobalStyle />
-      <App />
+      <Router>
+        <App />
+      </Router>
     </ApolloProvider>
   </OvermindProvider>,
   document.getElementById("root")
