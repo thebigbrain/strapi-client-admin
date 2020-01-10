@@ -1,33 +1,42 @@
-import {pipe} from 'overmind'
-import * as o from './operators'
-import {setState,} from '../../operators'
+export const login = async ({state, effects}) => {
+  try {
+    let response = await effects.http.post(`${state.strapiServerOrigin}/auth/local`, {
+      identifier: 'test',
+      password: 'test111111',
+    });
 
-export const reAuthenticate = pipe(
-  o.reAuthenticate(),
-  pipe(
-    setState('user.hasLogged', true),
-    setState('isLanding', false),
-    o.getRoles()
-  ),
-  o.handleAuthError()
-)
+    Object.assign(state.user, response.data);
 
-export const login = pipe(
-  setState(`user.hasLogged`, false),
-  setState(`user.isLogging`, true),
-  o.login(),
-  pipe(
-    o.setAuthorityRoles(),
-    setState('user.hasLogged', true),
-    o.getRoles(),
-    o.handleLoginSuccess(),
-  ),
-  o.handleLoginError(),
-  setState(`user.isLogging`, false),
-)
+    effects.jwt.store(response.data.jwt);
+    effects.browser.reload();
+  } catch(error) {
+    console.log('An error occurred:', error);
+  }
+};
 
-export const toLogin = ({effects}) => effects.router.toLogin()
+export const loginWithGithub = async ({state, effects}) => {
+  const popup = effects.browser.openPopup(
+    `${state.strapiServerOrigin}/connect/github`,
+    'sign in',
+  );
 
-export const getCaptcha = async ({state}) => {
-  state.user.captcha = Math.random().toString().substr(2, 4)
-}
+  return effects.browser
+    .waitForMessage('signin')
+    .then(data => {
+      Object.assign(state.user, data);
+      popup.close();
+
+      if (state.user.error) {
+        throw state.user.error;
+      } else {
+        effects.jwt.store(state.user.jwt);
+        effects.browser.reload();
+      }
+    });
+};
+
+export const logout = ({state, effects}) => {
+  state.user = {};
+  effects.jwt.reset();
+  effects.browser.reload();
+};

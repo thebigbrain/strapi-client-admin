@@ -1,19 +1,25 @@
-import React from 'react';
-// import QuoteBoard from 'pages/QuoteBoard';
-// import NavBar from "./NavBar";
-// import Footer from "./Footer";
-import {PageContainer} from 'components/elements';
-import {useOvermind} from 'hooks/overmind';
-import Layout from './Layout';
+import React from "react";
+import { PageContainer } from "components/elements";
+import Layout from "./Layout";
+import AuthGithubCallback from "./AuthGithubCallback";
+import { Switch, Route } from "react-router-dom";
+import Error from './Error';
 
 export default function App() {
-  const {state} = useOvermind();
+  const { pathname } = window.location;
+
   return (
     <PageContainer>
-      {/* <NavBar/>
-      <QuoteBoard/>
-      <Footer/> */}
-      <Layout {...state.layout}/>
+      <Error/>
+      {pathname.startsWith("/auth") ? (
+        <Switch>
+          <Route exact path="/auth/github/callback">
+            <AuthGithubCallback />
+          </Route>
+        </Switch>
+      ) : (
+        <Layout />
+      )}
     </PageContainer>
   );
 }

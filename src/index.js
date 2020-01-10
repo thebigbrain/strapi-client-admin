@@ -5,24 +5,37 @@ import { OvermindProvider } from "./hooks";
 import * as serviceWorker from "./serviceWorker";
 import overmind from "./overmind";
 import { createGlobalStyle } from "styled-components";
-import 'antd/dist/antd.css';
-import {BrowserRouter as Router} from 'react-router-dom';
-import {ApolloProvider} from "./graphql/client";
+import "antd/dist/antd.css";
+import { BrowserRouter as Router } from "react-router-dom";
+import { ApolloProvider } from "./graphql/client";
 
 const GlobalStyle = createGlobalStyle`
   body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-        sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  }
+
+  code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  }
+
+  .ant-layout-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    > *:hover {
+      cursor: pointer;
     }
 
-    code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-        monospace;
+    .anticon {
+      font-size: 16px;
     }
+  }
 `;
 
 ReactDOM.render(

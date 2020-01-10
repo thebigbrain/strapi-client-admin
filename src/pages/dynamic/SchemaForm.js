@@ -2,7 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import styled from 'styled-components';
 import {Form, Input, DatePicker, InputNumber, Button} from 'antd';
-import {useMutation} from '@apollo/react-hooks';
+import {useMutation} from '@apollo/client';
 import {CREATE_MODEL} from 'graphql/queries';
 
 const StyledForm = styled(Form)`
@@ -21,8 +21,6 @@ const FIELDS = {
 export default function({fields, collection, submit, ...formProps}) {
   const { register, handleSubmit, errors, setValue } = useForm();
   const [createModel, {data: result}] = useMutation(CREATE_MODEL);
-
-  console.log(result)
 
   const onSubmit = data => {
     createModel({variables: {data}});

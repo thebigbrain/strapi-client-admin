@@ -1,24 +1,27 @@
 import React from "react";
-import styled from "styled-components";
-import { Layout, Menu, Icon } from "antd";
+import { styled } from "@material-ui/styles";
+import { Layout, Menu, Icon, Skeleton } from "antd";
 import { useOvermind } from "hooks/overmind";
-import { Switch, Route, Link, useRouteMatch } from "react-router-dom";
+import { Switch, Route, Link } from "react-router-dom";
+import { FlexPadding } from "components/elements";
+
 import Home from "./dynamic/Home";
 import Board from "./dynamic/Board";
 import CodeList from "./dynamic/CodeList";
 import SchemaForm from "./dynamic/SchemaForm";
 import JsonEditor from "./dynamic/JsonEditor";
+import User from "./User";
 
-const StyledLayout = styled(Layout)`
-  width: 100%;
-  height: 100%;
-`;
+const StyledLayout = styled(Layout)({
+  width: "100%",
+  height: "100%"
+});
 
-const Logo = styled.div`
-  height: 32px;
-  background: rgba(255, 255, 255, 0.2);
-  margin: 16px;
-`;
+const Logo = styled("div")({
+  height: 32,
+  background: "rgba(255, 255, 255, 0.2)",
+  margin: 16
+});
 
 const pages = { Home, Board, CodeList, SchemaForm, JsonEditor };
 
@@ -30,10 +33,10 @@ function renderMenu(route, prefix) {
     routes.map(v => {
       const path = v.path === "/" ? prefix : `${prefix}/${v.path}`;
 
-      if (v.routes) {
+      if (v.routes && v.routes.length > 0) {
         return (
           <Menu.SubMenu
-            key="sub1"
+            key={path}
             title={
               <span>
                 {v.icon && <Icon type={v.icon} />}
@@ -47,7 +50,7 @@ function renderMenu(route, prefix) {
       }
 
       return (
-        <Menu.Item key={v.path}>
+        <Menu.Item key={path}>
           <Link to={path}>
             {v.icon && <Icon type={v.icon} />}
             <span>{v.name}</span>
@@ -62,7 +65,7 @@ function renderRoutes(route, prefix) {
   const routes = route.routes;
   const path = route.path ? `${prefix}/${route.path}` : prefix;
 
-  if (routes) {
+  if (routes && routes.length > 0) {
     return routes.map(r => renderRoutes(r, path));
   }
 
@@ -73,41 +76,53 @@ function renderRoutes(route, prefix) {
     <Route
       key={path}
       path={path}
-      render={() => <OtherComponent {...route.props} />}
-    />
+    >
+      <OtherComponent {...(route.props && JSON.parse(route.props))} />
+    </Route>
   );
 }
 
-export default function(props) {
+function HeaderButtons(props) {
+  return <User />;
+}
+
+function _Layout(props) {
   const { state, actions } = useOvermind();
-  const prefix = '/' + state.layout.route.path.replace(/\/$/, "");
+  const { route, collapsed } = state.layout;
 
-  let match = useRouteMatch(`${prefix}/:selected`);
-  let selected = match
-    ? [match.params.selected]
-    : state.layout.defaultSelectedKeys;
+  if (!route) return <Skeleton active />;
 
-  console.log(selected)
+  const { toggleCollapsed } = actions.layout;
+  const prefix = "/" + route.path.replace(/\/$/, "");
+
+  let selected = [window.location.pathname];
+  let opened = selected.map(v => {
+    let arr = v.split("/");
+    arr.pop();
+    return arr.join("/");
+  });
 
   return (
     <StyledLayout>
-      <Layout.Sider
-        trigger={null}
-        collapsible
-        collapsed={state.layout.collapsed}
-      >
+      <Layout.Sider trigger={null} collapsible collapsed={collapsed}>
         <Logo />
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={selected}>
-          {renderMenu(state.layout.route, prefix)}
+        <Menu
+          theme="dark"
+          mode="inline"
+          defaultSelectedKeys={selected}
+          defaultOpenKeys={opened}
+        >
+          {renderMenu(route, prefix)}
         </Menu>
       </Layout.Sider>
       <Layout>
         <Layout.Header style={{ background: "#fff" }}>
           <Icon
-            className="trigger"
-            type={state.layout.collapsed ? "menu-unfold" : "menu-fold"}
-            onClick={actions.layout.toggleCollapsed}
+            type={collapsed ? "menu-unfold" : "menu-fold"}
+            onClick={toggleCollapsed}
           />
+          <FlexPadding />
+          <HeaderButtons />
         </Layout.Header>
         <Layout.Content
           style={{
@@ -117,9 +132,18 @@ export default function(props) {
             minHeight: 280
           }}
         >
-          <Switch>{renderRoutes(state.layout.route, '')}</Switch>
+          <Switch>{renderRoutes(route, "")}</Switch>
         </Layout.Content>
       </Layout>
     </StyledLayout>
   );
+}
+
+export default function() {
+  const { actions } = useOvermind();
+  actions.getApp();
+  // actions.getRoutes();
+
+  // eslint-disable-next-line react/jsx-pascal-case
+  return <_Layout />;
 }

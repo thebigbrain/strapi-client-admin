@@ -1,9 +1,11 @@
-import * as api from './api';
 import * as jwt from './jwt';
 import * as client from './client';
+import * as browser from './browser';
+import http from './http';
 
 export default {
-  api,
   jwt,
-  client
+  client,
+  browser,
+  http
 };

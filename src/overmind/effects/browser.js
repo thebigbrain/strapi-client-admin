@@ -62,6 +62,10 @@ export function waitForMessage(type) {
   })
 }
 
+export function sendMessage(type, data) {
+  window.opener.postMessage({type, data}, '*');
+}
+
 export function reload() {
-  location.reload(true)
+  window.location.reload(true)
 }
