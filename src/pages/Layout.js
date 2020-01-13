@@ -5,12 +5,15 @@ import { useOvermind } from "hooks/overmind";
 import { Switch, Route, Link } from "react-router-dom";
 import { FlexPadding } from "components/elements";
 
+import User from "./User";
+
 import Home from "./dynamic/Home";
 import Board from "./dynamic/Board";
 import CodeList from "./dynamic/CodeList";
 import SchemaForm from "./dynamic/SchemaForm";
 import JsonEditor from "./dynamic/JsonEditor";
-import User from "./User";
+import Table from './dynamic/Table';
+
 
 const StyledLayout = styled(Layout)({
   width: "100%",
@@ -23,7 +26,7 @@ const Logo = styled("div")({
   margin: 16
 });
 
-const pages = { Home, Board, CodeList, SchemaForm, JsonEditor };
+const pages = { Home, Board, CodeList, SchemaForm, JsonEditor, Table };
 
 function renderMenu(route, prefix) {
   const routes = route.routes;
@@ -141,6 +144,7 @@ function _Layout(props) {
 
 export default function() {
   const { actions } = useOvermind();
+  // @ts-ignore
   actions.getApp();
   // actions.getRoutes();
 

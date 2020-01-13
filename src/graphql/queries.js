@@ -1,3 +1,4 @@
+// @ts-ignore
 import {gql} from '@apollo/client';
 
 export function generateQuery(name, schema) {
@@ -29,6 +30,7 @@ export const GET_APP = gql`
           id
           path
         }
+        routePriorities
       }
       role {
         routes {

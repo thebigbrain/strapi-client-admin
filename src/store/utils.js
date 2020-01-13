@@ -26,6 +26,22 @@ export const buildRouteTree = (arr, tree = new Map()) => {
   return tree;
 }
 
-export const sortRouteTree = (priorities, routes) => {
+export const sortRouteTree = (priorities, root) => {
+  if (!priorities) return;
 
+  let priors = new Map();
+  priorities.split(',').forEach((v, i) => priors.set(v, i));
+
+  const sort = (arr) => {
+    arr.sort((r1, r2) => {
+      if (r1.routes) sort(r1.routes);
+      if (r2.routes) sort(r2.routes);
+
+      let p1 = priors.get(r1.id), p2 = priors.get(r2.id);
+      if (p1 == null) p1 = Infinity;
+      if (p2 == null) p2 = Infinity;
+      return p1 - p2;
+    });
+  };
+  sort(root.routes);
 };

@@ -3,7 +3,8 @@
     "baseUrl": "./src",
     "jsx": "react",
     "target": "es6",
-    "module": "esnext",
+    "module": "es2015",
+    "moduleResolution": "node",
     "checkJs": true
   },
   "exclude": [
@@ -11,6 +12,6 @@
     "public",
     ".cache",
     "node_modules",
-    "**/node_modules/*"
+    "node_modules/**/*"
   ]
 }

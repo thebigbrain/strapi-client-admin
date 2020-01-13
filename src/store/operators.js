@@ -22,9 +22,10 @@ export const handleQueryError = ({ state, actions }, error) => {
   }
 };
 
-export const getQueryData = options =>
+export const getQueryData = () =>
   pipe(
-    map(async ({ effects }) => {
+    map(async ({ effects }, options) => {
+      // @ts-ignore
       const r = await effects.client.query(options);
       return r.data;
     }),

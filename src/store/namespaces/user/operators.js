@@ -1,3 +1,4 @@
+// @ts-ignore
 import {catchError, map, mutate, run} from 'overmind'
 
 export const reAuthenticate = () =>

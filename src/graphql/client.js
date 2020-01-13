@@ -5,6 +5,7 @@ import {
   HttpLink,
   ApolloLink,
   ApolloProvider as Provider,
+// @ts-ignore
 } from "@apollo/client";
 
 const location = window.location;

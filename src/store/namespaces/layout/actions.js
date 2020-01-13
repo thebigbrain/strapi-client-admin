@@ -1,4 +1,4 @@
-import {buildRouteTree} from '../../utils';
+import {buildRouteTree, sortRouteTree} from '../../utils';
 
 export const toggleCollapsed = ({ state }) => {
   state.layout.collapsed = !state.layout.collapsed;
@@ -16,6 +16,6 @@ export const setRoutes = ({ state }, routes = []) => {
   let tree = buildRouteTree(routes);
   let root = tree.get(state.layout.route.id);
   
-  root.routes.sort((v1, v2) => v1.priority - v2.priority);
+  sortRouteTree(state.layout.routePriorities, root);
   state.layout.route = root;
 };

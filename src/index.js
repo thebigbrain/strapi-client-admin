@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import App from "pages/App";
 import { OvermindProvider } from "./hooks";
 import * as serviceWorker from "./serviceWorker";
-import overmind from "./overmind";
+import store from "./store";
 import { createGlobalStyle } from "styled-components";
 import "antd/dist/antd.css";
 import { BrowserRouter as Router } from "react-router-dom";
@@ -39,7 +39,7 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 ReactDOM.render(
-  <OvermindProvider value={overmind}>
+  <OvermindProvider value={store}>
     <ApolloProvider>
       <GlobalStyle />
       <Router>
