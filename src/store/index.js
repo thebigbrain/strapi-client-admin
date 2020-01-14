@@ -10,6 +10,7 @@ import quote from './namespaces/quote';
 import timer from './namespaces/timer';
 import layout from './namespaces/layout';
 import user from './namespaces/user';
+import collections from './namespaces/collections';
 
 // import warning from '../utils/warning
 
@@ -24,7 +25,8 @@ const config = merge(
     quote,
     timer,
     layout,
-    user
+    user,
+    collections,
   })
 );
 
