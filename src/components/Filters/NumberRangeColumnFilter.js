@@ -1,4 +1,5 @@
 import React from 'react';
+import { InputNumber } from 'antd';
 
 // This is a custom UI for our 'between' or number range
 // filter. It uses two number boxes and filters rows to
@@ -14,7 +15,7 @@ export default function NumberRangeColumnFilter({
       max = Math.max(row.values[id], max)
     })
     return [min, max]
-  }, [id, preFilteredRows])
+  }, [id, preFilteredRows]);
 
   return (
     <div
@@ -22,32 +23,20 @@ export default function NumberRangeColumnFilter({
         display: 'flex',
       }}
     >
-      <input
+      <InputNumber
         value={filterValue[0] || ''}
-        type="number"
-        onChange={e => {
-          const val = e.target.value
-          setFilter((old = []) => [val ? parseInt(val, 10) : undefined, old[1]])
+        onChange={val => {
+          setFilter((old = []) => [val ? parseInt(val, 10) : null, old[1]])
         }}
-        placeholder={`Min (${min})`}
-        style={{
-          width: '70px',
-          marginRight: '0.5rem',
-        }}
+        placeholder={min}
       />
-      to
-      <input
+      -
+      <InputNumber
         value={filterValue[1] || ''}
-        type="number"
-        onChange={e => {
-          const val = e.target.value
-          setFilter((old = []) => [old[0], val ? parseInt(val, 10) : undefined])
+        onChange={val => {
+          setFilter((old = []) => [old[0], val ? parseInt(val, 10) : null])
         }}
-        placeholder={`Max (${max})`}
-        style={{
-          width: '70px',
-          marginLeft: '0.5rem',
-        }}
+        placeholder={max}
       />
     </div>
   )

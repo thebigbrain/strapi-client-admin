@@ -1,4 +1,5 @@
 import React from 'react';
+import { Input } from 'antd';
 
 export default function GlobalFilter({
   preGlobalFilteredRows,
@@ -9,17 +10,14 @@ export default function GlobalFilter({
 
   return (
     <span>
-      Search:{" "}
-      <input
+      搜索:{" "}
+      <Input
+        style={{display: 'inline-block', width: 200}}
         value={globalFilter || ""}
         onChange={e => {
           setGlobalFilter(e.target.value || undefined); // Set undefined to remove the filter entirely
         }}
         placeholder={`${count} records...`}
-        style={{
-          fontSize: "1.1rem",
-          border: "0"
-        }}
       />
     </span>
   );

@@ -7,7 +7,9 @@ import store from "./store";
 import { createGlobalStyle } from "styled-components";
 import "antd/dist/antd.css";
 import { BrowserRouter as Router } from "react-router-dom";
+import zhCN from 'antd/es/locale/zh_CN'
 import { ApolloProvider } from "./graphql/client";
+import { ConfigProvider } from "antd";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -39,14 +41,17 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 ReactDOM.render(
-  <OvermindProvider value={store}>
-    <ApolloProvider>
-      <GlobalStyle />
-      <Router>
-        <App />
-      </Router>
-    </ApolloProvider>
-  </OvermindProvider>,
+  <ConfigProvider locale={zhCN}>
+    <OvermindProvider value={store}>
+      <ApolloProvider>
+        <GlobalStyle />
+        <Router>
+          <App />
+        </Router>
+      </ApolloProvider>
+    </OvermindProvider>
+  </ConfigProvider>
+  ,
   document.getElementById("root")
 );
 

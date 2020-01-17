@@ -14,3 +14,10 @@ export const StyledQuoteBoard = styled('div')({
   width: '100%',
   overflow: 'auto',
 });
+
+export const FullFlexRow = styled('div')({
+  display: 'flex',
+  flexDirection: 'row',
+  width: '100%',
+  height: '100%',
+})

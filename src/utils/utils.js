@@ -3,6 +3,12 @@ import React from 'react';
 import nzh from 'nzh/cn';
 import {parse, stringify} from 'qs';
 
+export const noopEventHandler = (e) => {
+  if (e.preventDefault) e.preventDefault();
+  if (e.stopPropagation) e.stopPropagation();
+  return false;
+};
+
 export function fixedZero(val) {
   return val * 1 < 10 ? `0${val}` : val;
 }

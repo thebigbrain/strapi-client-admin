@@ -75,12 +75,13 @@ function renderRoutes(route, prefix) {
   if (!route.component) return <div>null component: {path}</div>;
 
   const OtherComponent = pages[route.component];
+  const _props = route.props && JSON.parse(route.props);
   return (
     <Route
       key={path}
       path={path}
     >
-      <OtherComponent {...(route.props && JSON.parse(route.props))} />
+      <OtherComponent {..._props} />
     </Route>
   );
 }

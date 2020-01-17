@@ -1,12 +1,14 @@
-import { mutate, map, pipe, catchError } from "overmind";
+import { mutate, map, pipe, catchError, debounce } from "overmind";
 import objectPath from "object-path";
+
+const location = window.location;
 
 export const handleQueryError = ({ state, actions }, error) => {
   const { graphQLErrors, networkError } = error;
 
   if (graphQLErrors) {
     graphQLErrors.forEach(e => {
-      if (e.message === "Forbidden") {
+      if (e.message.startsWith("Forbidden")) {
         actions.user.logout();
       }
       state.graphQLErrors.push(e);
@@ -25,12 +27,23 @@ export const handleQueryError = ({ state, actions }, error) => {
 export const getQueryData = () =>
   pipe(
     map(async ({ effects }, options) => {
-      // @ts-ignore
       const r = await effects.client.query(options);
       return r.data;
     }),
     catchError(handleQueryError)
   );
+
+export const search = () =>
+  pipe(
+    map(async ({ effects }, { collection, query='' }) => {
+      let url = `${location.protocol}//${location.hostname}:1337/globalsearch/${collection}?${query}`;
+      let result = await effects.http.get(url);
+      return { result, collection };
+    }),
+    catchError(({state}, error) => state.error = error)
+  );
+
+export const debouncePipe = (ms, ...args) => pipe(debounce(ms || 300), ...args);
 
 export const setState = (path, value = null) =>
   mutate(({ state }, v) => {
@@ -38,40 +51,3 @@ export const setState = (path, value = null) =>
   });
 
 export const getState = path => ({ state }) => objectPath.get(state, path);
-
-export const withLoadApp = continueAction => async (context, value) => {
-  const { effects, state } = context;
-
-  if (state.hasLoadedApp && continueAction) {
-    await continueAction(context, value);
-    return;
-  }
-  if (state.hasLoadedApp) {
-    return;
-  }
-
-  state.isAuthenticating = true;
-  state.jwt = (await effects.jwt.get()) || null;
-
-  if (state.jwt) {
-    try {
-      await effects.jwt.reAuthenticate();
-      state.user = await effects.api.getCurrentUser();
-    } catch (error) {
-      console.log(error);
-      effects.notificationToast.error(
-        "Your session seems to be expired, please log in again..."
-      );
-      effects.jwt.reset();
-    }
-  } else {
-    effects.jwt.reset();
-  }
-
-  if (continueAction) {
-    await continueAction(context, value);
-  }
-
-  state.hasLoadedApp = true;
-  state.isAuthenticating = false;
-};
