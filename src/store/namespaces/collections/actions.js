@@ -16,15 +16,18 @@ export const doSearch = o.debouncePipe(
     const query = new URLSearchParams();
     query.append('_limit', pageSize);
     query.append('_start', pageSize * pageIndex);
+
     if (sortBy.length > 0) {
       const {id, desc} = sortBy[0]
       query.append('_sort', `${id}:${desc ? 'desc' : 'asc'}`);
     }
-    if (globalFilter) query.append('_q', globalFilter);
+
+    if (globalFilter != null && globalFilter !== '') query.append('_q', globalFilter);
     
     filters.forEach(v => {
       query.append(v.id, v.value);
     });
+    
     return {collection, query};
   }),
   restSearch
@@ -49,7 +52,3 @@ export const updateInstance = pipe(
   }),
   doSearch
 );
-
-export const resetInstance = ({state}, collection) => {
-  state.collections.instances[collection] = null;
-};

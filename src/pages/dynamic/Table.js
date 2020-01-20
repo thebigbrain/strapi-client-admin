@@ -16,7 +16,8 @@ import Pagination from "components/Pagination";
 import GlobalFilterForTable from "components/Filters/GlobalFilterForTable";
 import DefaultColumnFilter from "components/Filters/DefaultColumnFilter";
 import NumberRangeColumnFilter from "components/Filters/NumberRangeColumnFilter";
-import { FullFlexRow, FlexPadding } from "components/elements";
+import { FullFlexRow, FlexPadding, StyledIcon } from "components/elements";
+import ToolButtons from "pages/dynamic/ToolButtons";
 
 const FILTERS = {
   text: DefaultColumnFilter,
@@ -32,17 +33,13 @@ const theme = {
   }
 };
 
-function CustomPagination({ instance, total }) {
-  return (
-    <Pagination
-      {...instance}
-      total={total}
-    />
-  );
-}
-
-
-export default function({ columns, collection, fields, pageSize = 10 }) {
+export default function({
+  columns,
+  collection,
+  fields,
+  pageSize = 10,
+  title = ""
+}) {
   const { state, actions } = useOvermind();
   const { data, count } = state.collections.getData(collection);
   const [pageCount, setPageCount] = useState(Math.ceil(count / pageSize) || 1);
@@ -51,7 +48,7 @@ export default function({ columns, collection, fields, pageSize = 10 }) {
     collection,
     pageIndex: 0,
     pageSize,
-    globalFilter: ''
+    globalFilter: ""
   });
 
   useEffect(() => {
@@ -82,9 +79,10 @@ export default function({ columns, collection, fields, pageSize = 10 }) {
       autoResetFilters: false,
       autoResetGlobalFilter: false
     },
-    useFilters,
     useGlobalFilter,
+    useFilters,
     useSortBy,
+    // useRowSelect,
     usePagination
   );
 
@@ -95,26 +93,42 @@ export default function({ columns, collection, fields, pageSize = 10 }) {
   useEffect(() => {
     actions.collections.updateInstance(instance);
   }, [
-    instance.state.sortBy, instance.state.globalFilter, instance.state.pageSize, instance.state.pageIndex, 
-    instance.state.filters,
+    instance.state.sortBy,
+    instance.state.globalFilter,
+    instance.state.pageSize,
+    instance.state.pageIndex,
+    instance.state.filters
   ]);
 
-  console.log(instance);
+  // console.log(instance);
+
+  const handleReload = () => {
+    instance.setAllFilters(() => []);
+    instance.setGlobalFilter(null);
+  };
 
   return (
     <ThemeProvider theme={theme}>
       <Table
         {...instance.getTableProps()}
+        title={
+          <FullFlexRow>
+            <span>{title || "table title here"}</span>
+            <FlexPadding />
+            <StyledIcon type="reload" title="重置搜索" onClick={handleReload} />
+          </FullFlexRow>
+        }
         head={
-          <THead {...instance} >
+          <THead {...instance}>
             <FullFlexRow>
               <GlobalFilterForTable {...instance} />
-              <FlexPadding/>
+              <FlexPadding />
+              <ToolButtons collection={collection}/>
             </FullFlexRow>
           </THead>
         }
         body={<TBody {...instance} />}
-        pagination={<CustomPagination instance={instance} total={count} />}
+        pagination={<Pagination {...instance} total={count} />}
       />
     </ThemeProvider>
   );

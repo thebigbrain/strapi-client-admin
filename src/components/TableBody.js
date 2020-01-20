@@ -1,6 +1,11 @@
 import React from 'react';
-import { useTheme } from '@material-ui/styles';
+import { useTheme, styled } from '@material-ui/styles';
 
+const StyledBody = styled('tbody')({
+  '&:hover': {
+    cursor: 'pointer'
+  }
+});
 
 export default function TBody(props) {
   const {
@@ -17,7 +22,7 @@ export default function TBody(props) {
 
   const theme = useTheme();
   return (
-    <tbody {...getTableBodyProps()}>
+    <StyledBody {...getTableBodyProps()}>
       {(globalFilter == null ? page : rows).map((row, i) => {
         prepareRow(row);
         return (
@@ -40,6 +45,6 @@ export default function TBody(props) {
           </tr>
         );
       })}
-    </tbody>
+    </StyledBody>
   );
 }

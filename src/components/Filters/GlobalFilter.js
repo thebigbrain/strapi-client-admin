@@ -17,7 +17,7 @@ export default function GlobalFilter({
         onChange={e => {
           setGlobalFilter(e.target.value || undefined); // Set undefined to remove the filter entirely
         }}
-        placeholder={`${count} records...`}
+        placeholder={`${count} 条记录...`}
       />
     </span>
   );

@@ -52,7 +52,7 @@ export default function Table({ title, head, body, pagination, ...tableProps}) {
   // Render the UI for your table
   return (
     <Styles>
-      <div>{title || 'table title here'}</div>
+      {title}
       <div className={classes["table-wrap"]}>
         <table className={classes.table} {...tableProps}>
           {head}

@@ -1,4 +1,5 @@
 import {styled} from "@material-ui/styles";
+import {Icon} from 'antd';
 
 export const FlexPadding = styled('i')({
   flexGrow: 1,
@@ -18,6 +19,13 @@ export const StyledQuoteBoard = styled('div')({
 export const FullFlexRow = styled('div')({
   display: 'flex',
   flexDirection: 'row',
+  alignItems: 'center',
   width: '100%',
   height: '100%',
-})
+});
+
+export const StyledIcon = styled(Icon)({
+  fontSize: 16,
+  padding: 10,
+  cursor: 'pointer'
+});

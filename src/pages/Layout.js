@@ -92,12 +92,10 @@ function HeaderButtons(props) {
 
 function _Layout(props) {
   const { state, actions } = useOvermind();
-  // @ts-ignore
   const { route, collapsed } = state.layout;
 
   if (!route) return <Skeleton active />;
 
-  // @ts-ignore
   const { toggleCollapsed } = actions.layout;
   const prefix = "/" + route.path.replace(/\/$/, "");
 
@@ -147,7 +145,6 @@ function _Layout(props) {
 
 export default function() {
   const { actions } = useOvermind();
-  // @ts-ignore
   actions.getApp();
   // actions.getRoutes();
 

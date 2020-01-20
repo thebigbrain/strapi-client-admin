@@ -8,5 +8,6 @@ export const convertFilters = map(({state}, {filters, ...rest}) => {
     let h = filterTypes[v.id] ? filterHandlers[filterTypes[v.id]] : filterHandlers.defaultHandler;
     r.push(...h(v));
   });
+
   return {filters: r, ...rest};
 });
