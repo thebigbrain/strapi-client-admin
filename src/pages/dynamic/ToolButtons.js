@@ -19,6 +19,6 @@ export default function({collection}) {
 
   return collection_ops.map((tool, i) => {
     let C = OpComponents[tool.component.toLowerCase()] || DefaultComponent;
-    return <C style={{marginLeft: '6px'}} key={tool.id} title={tool.title} {...tool} />;
+    return <C style={{marginLeft: '6px'}} key={tool.id} title={tool.title} {...tool} collection={collection}/>;
   });
 }

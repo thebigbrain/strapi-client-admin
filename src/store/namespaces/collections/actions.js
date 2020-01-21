@@ -4,12 +4,12 @@ import * as internal from './internal';
 
 export const restSearch = pipe(
   o.search(),
-  mutate(({state}, {collection, result}) => {
-    Object.assign(state.collections.cache, {[collection]: result.data});
+  mutate(({state}, {collection, data}) => {
+    Object.assign(state.collections.cache, {[collection]: data});
   })
 );
 
-export const doSearch = o.debouncePipe(
+export const getQuery = o.debouncePipe(
   300,
   internal.convertFilters,
   map(({state}, {globalFilter, collection, pageSize, pageIndex, filters, sortBy}) => {
@@ -29,9 +29,21 @@ export const doSearch = o.debouncePipe(
     });
     
     return {collection, query};
-  }),
+  })
+)
+
+export const doSearch = pipe(
+  getQuery,
   restSearch
 );
+
+export const download = pipe(
+  map(({state}, collection) => {
+    return state.collections.getInstanceState(collection)
+  }),
+  getQuery,
+  o.download()
+)
 
 export const setFilter = ({state}, c) => {
   state.collections.filterTypes[c.accessor] = c.filter;

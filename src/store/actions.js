@@ -1,4 +1,5 @@
 import { pipe, mutate, map } from "overmind";
+import * as o from "./operators";
 
 export const getApp = pipe(
   map(async ({ effects }) => {
@@ -11,9 +12,12 @@ export const getApp = pipe(
       actions.layout.setLayout(app && app.layout);
       if (app && app.role) {
         actions.layout.setRoutes(app && app.role && app.role.routes);
-        state.collectionConfigs = (app.role.collection_configs || []).reduce((prev, cur) => {
-          return Object.assign(prev, {[cur.name]: cur.collection_ops});
-        }, {});
+        state.collectionConfigs = (app.role.collection_configs || []).reduce(
+          (prev, cur) => {
+            return Object.assign(prev, { [cur.name]: cur.collection_ops });
+          },
+          {}
+        );
       }
     }
   })
